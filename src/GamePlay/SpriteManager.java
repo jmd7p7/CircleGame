@@ -11,6 +11,7 @@ import Sprite.WinLoseSprite;
 import Sprite.GameSprite;
 import Sprite.PlayerSprite;
 import Utility.Utility;
+import Positioning.Coordinate;
 
 public class SpriteManager {
 	private final int max_enemies;
@@ -79,14 +80,18 @@ public class SpriteManager {
 	}
 	
 	public void movePlayerPosition(KeyEvent evt){
+		int newY_coord;
 		switch (evt.getKeyCode()) {
-		case KeyEvent.VK_UP:
-			playerSprite.setY_Coord(playerSprite.getY_Coord() - playerSprite.getVerticalSpeed());
-			break;
-		case KeyEvent.VK_DOWN:
-			playerSprite.setY_Coord(playerSprite.getY_Coord() + playerSprite.getVerticalSpeed());
-			break;
+			case KeyEvent.VK_UP:
+				newY_coord = playerSprite.getY_Coord() - playerSprite.getVerticalSpeed();
+				break;
+			case KeyEvent.VK_DOWN:
+				newY_coord = playerSprite.getY_Coord() - playerSprite.getVerticalSpeed();
+				break;
+			default:
+				return;
 		}
+		playerSprite.setCoordinate(new Coordinate(playerSprite.getX_Coord(), newY_coord));
 	}
 	
 	public void updatePositions(Double delta){
