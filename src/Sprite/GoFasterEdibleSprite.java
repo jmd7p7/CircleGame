@@ -7,7 +7,7 @@ public class GoFasterEdibleSprite extends EdibleSprite{
 	private static final int SPEED_INCREASE_MAX = 6;
 	
 	public GoFasterEdibleSprite(int radius, int horizontalSpeed, int verticalSpeed, int startingY_coord) {
-		super(radius, java.awt.Color.LIGHT_GRAY, horizontalSpeed, verticalSpeed, startingY_coord);
+		super(radius, Color.LIGHT_GRAY, horizontalSpeed, verticalSpeed, startingY_coord);
 	}
 
 	@Override

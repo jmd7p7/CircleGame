@@ -1,5 +1,5 @@
 package Sprite;
 
 public enum GameSpriteType {
-	EDIBLE, ENEMY, WINLOSE
+	EDIBLE, ENEMY, WINLOSE, CANNON
 }

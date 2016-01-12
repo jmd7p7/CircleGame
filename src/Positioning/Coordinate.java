@@ -1,15 +1,10 @@
 package Positioning;
 
-import org.junit.Assert;
-
 public class Coordinate {
 	private int x;
 	private int y;
 	
-	public Coordinate(int x, int y){
-		Assert.assertTrue("x coordinate cannot be negative.", x >= 0);
-		Assert.assertTrue("y coordinate cannot be negative.", y >= 0);
-		
+	public Coordinate(int x, int y){	
 		this.x = x;
 		this.y = y;
 	}

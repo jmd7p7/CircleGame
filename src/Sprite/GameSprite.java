@@ -1,7 +1,6 @@
 package Sprite;
 
 import java.awt.Color;
-import java.util.Random;
 import Positioning.Coordinate;
 
 import GamePlay.DirectionChangeType;
@@ -24,24 +23,19 @@ public abstract class GameSprite extends Sprite{
 	}
 
 	public void updatePosition(Double delta){
-		//this.x_coord += (int) (delta * horizontalSpeed);
 		int newX_coord = this.getX_Coord() + (int) (delta*horizontalSpeed);
 		int newY_coord;
 		switch(DirectionRandomizer.getDirectionChange()){
-		case UP:
-			//this.y_coord -= verticalSpeed;
-			newY_coord = this.getY_Coord() - verticalSpeed;
-			this.setCoordinate(new Coordinate(newX_coord, newY_coord));
-			break;
-		case DOWN:
-			//this.y_coord += verticalSpeed;
-			newY_coord = this.getY_Coord() - verticalSpeed;
-			this.setCoordinate(new Coordinate(newX_coord, newY_coord));
-			break;
-		case NONE:
-			break;
+			case UP:
+				newY_coord = this.getY_Coord() - verticalSpeed;
+				break;
+			case DOWN:
+				newY_coord = this.getY_Coord() + verticalSpeed;
+				break;
+			default:
+				newY_coord = this.getY_Coord();
 		}
-		
+		this.setCoordinate(new Coordinate(newX_coord, newY_coord));	
 	}
 	
 	public GameSpriteType getGameSpriteType(){

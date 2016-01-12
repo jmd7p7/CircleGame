@@ -9,7 +9,9 @@ import GamePlay.DifficultyLevel;
 import GamePlay.PlayerLoseHandler;
 import GamePlay.PlayerWinHandler;
 import GamePlay.SpriteManager;
+import Sprite.CannonSprite;
 import Sprite.GameSprite;
+import Sprite.Projectile;
 import Sprite.WinLoseSprite;
 
 /**
@@ -29,7 +31,7 @@ public class GameFrame extends JFrame implements PlayerWinHandler, PlayerLoseHan
 
 	/** Constructor to set up the GUI */
 	public GameFrame() {
-		spriteManager = new SpriteManager(DifficultyLevel.DIFFICULT, CANVAS_WIDTH, CANVAS_HEIGHT, this, this);
+		spriteManager = new SpriteManager(DifficultyLevel.EASY, CANVAS_WIDTH, CANVAS_HEIGHT, this, this);
 		// Set up a custom drawing JPanel
 		canvas = new DrawCanvas();
 		canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
@@ -122,6 +124,7 @@ public class GameFrame extends JFrame implements PlayerWinHandler, PlayerLoseHan
 
 		private void doGameUpdates(double delta) {
 			spriteManager.updatePositions(delta);
+			spriteManager.updateProjectiles(delta);
 		}
 
 		@Override
@@ -135,6 +138,14 @@ public class GameFrame extends JFrame implements PlayerWinHandler, PlayerLoseHan
 			for(WinLoseSprite WLSprite : spriteManager.getWinLoseSprites()){
 				g.setColor(WLSprite.getColor());
 				g.fillOval(WLSprite.getX_Coord(), WLSprite.getY_Coord(), WLSprite.getRadius()*2, WLSprite.getRadius()*2);
+			}
+			for(CannonSprite CSprite : spriteManager.getCannonSprites()){
+				g.setColor(CSprite.getColor());
+				g.fillOval(CSprite.getX_Coord(), CSprite.getY_Coord(), CSprite.getRadius() *2, CSprite.getRadius()*2);
+			}
+			for(Projectile projectile : spriteManager.getProjectiles()){
+				g.setColor(projectile.getColor());
+				g.fillOval(projectile.getX_coord(), projectile.getY_coord(), projectile.getRadius()*2, projectile.getRadius()*2);
 			}
 			g.setColor(spriteManager.getPlayerSprite().getColor());
 			g.fillOval(spriteManager.getPlayerSprite().getX_Coord(), spriteManager.getPlayerSprite().getY_Coord(), 

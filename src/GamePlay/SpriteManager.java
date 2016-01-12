@@ -7,22 +7,24 @@ import java.util.Arrays;
 import Sprite.EdibleSprite;
 import Sprite.EnemySprite;
 import Sprite.GameSpriteType;
+import Sprite.CannonSprite;
 import Sprite.WinLoseSprite;
 import Sprite.GameSprite;
 import Sprite.PlayerSprite;
-import Utility.Utility;
+import Sprite.Projectile;
 import Positioning.Coordinate;
 
 public class SpriteManager {
-	private final int max_enemies;
-	private final int max_edibles;
 	private GameSprite[] GameSprites;
 	private ArrayList<WinLoseSprite> WinLoseSprites;
+	private ArrayList<CannonSprite> CannonSprites;
+	private ArrayList<Projectile> projectiles;
 	private PlayerSprite playerSprite;
 	private final int screenWidth;
 	private final int screenHeight;
 	PlayerWinHandler winHandler;
 	PlayerLoseHandler lossHandler;
+	private final int projectileSpeed;
 	
 	public SpriteManager(DifficultyLevel difficultyLevel, int screenWidth, int screenHeight, 
 			PlayerWinHandler winHandler, PlayerLoseHandler lossHandler){
@@ -32,26 +34,21 @@ public class SpriteManager {
 		this.lossHandler = lossHandler;
 		this.playerSprite = new PlayerSprite(screenWidth - 100, screenHeight/2);
 		WinLoseSprites = new ArrayList<WinLoseSprite>();
+		CannonSprites = new ArrayList<CannonSprite>();
+		projectiles = new ArrayList<Projectile>();
+		this.projectileSpeed = 5;
 		
 		switch(difficultyLevel){
 			case EASY:
-				max_enemies = 1;
-				max_edibles = 2;
 				createInitialSpriteArray(1, 2);
 				break;
 			case MODERATE:
-				max_enemies = 3;
-				max_edibles = 4;
 				createInitialSpriteArray(3, 4);
 				break;
 			case DIFFICULT:
-				max_enemies = 5;
-				max_edibles = 5;
 				createInitialSpriteArray(5, 5);
 				break;
 			default:
-				max_enemies = 1;
-				max_edibles = 2;
 				break;
 		}
 
@@ -75,6 +72,14 @@ public class SpriteManager {
 		return this.WinLoseSprites;
 	}
 	
+	public ArrayList<CannonSprite> getCannonSprites(){
+		return this.CannonSprites;
+	}
+	
+	public ArrayList<Projectile> getProjectiles(){
+		return this.projectiles;
+	}
+	
 	public PlayerSprite getPlayerSprite(){
 		return this.playerSprite;
 	}
@@ -86,7 +91,7 @@ public class SpriteManager {
 				newY_coord = playerSprite.getY_Coord() - playerSprite.getVerticalSpeed();
 				break;
 			case KeyEvent.VK_DOWN:
-				newY_coord = playerSprite.getY_Coord() - playerSprite.getVerticalSpeed();
+				newY_coord = playerSprite.getY_Coord() + playerSprite.getVerticalSpeed();
 				break;
 			default:
 				return;
@@ -97,41 +102,63 @@ public class SpriteManager {
 	public void updatePositions(Double delta){
 		for(int i = 0; i < GameSprites.length; i++){
 			GameSprites[i].updatePosition(delta);
-			checkForCollisionBetweenPlayerAndGameSprites(GameSprites[i], i);
-			checkForCollisionBetweenEdibleOrEnemySpriteAndPanel(GameSprites[i], i);
+			if(CollisionDetectionManager.detectCollisionBetweenTwoSprites(GameSprites[i], playerSprite)){
+				handleCollision(GameSprites[i], i);
+			}
+			checkForCollisionBetweenGameSpriteAndPanel(GameSprites[i]);
 			checkForOffScreen(GameSprites[i], i);
 		}
 		for(int i = 0; i < WinLoseSprites.size(); i++){	
 			WinLoseSprites.get(i).updatePosition(delta);
-			checkForCollisionBetweenPlayerAndGameSprites(WinLoseSprites.get(i), i);
-			checkForCollisionBetweenWinLoseSpriteAndPanel(WinLoseSprites.get(i), i);
+			if(CollisionDetectionManager.detectCollisionBetweenTwoSprites(WinLoseSprites.get(i), playerSprite)){
+				handleCollision(WinLoseSprites.get(i), i);
+			}
+			checkForCollisionBetweenGameSpriteAndPanel(WinLoseSprites.get(i));
 			checkForOffScreen(WinLoseSprites.get(i), i);
 		}
-		if(WinLoseSprites.size() == 0 && System.currentTimeMillis() % 73 ==  0){
+		if(WinLoseSprites.size() <= 1 && System.currentTimeMillis() % 73 ==  0){
 			SpriteCreator creator = SpriteCreator.getInstance();
 			WinLoseSprites.add((WinLoseSprite)creator.createNewGameSprite(GameSpriteType.WINLOSE, screenHeight));
 		}
+		for(int i = 0; i < CannonSprites.size(); i++){
+			CannonSprites.get(i).updatePosition(delta);
+			if(CannonSprites.get(i).FireCannon()){
+				projectiles.add(new Projectile(CannonSprites.get(i), playerSprite, projectileSpeed));
+			}
+			checkForCollisionBetweenGameSpriteAndPanel(CannonSprites.get(i));
+			checkForOffScreen(CannonSprites.get(i), i);
+		}
+		if(CannonSprites.size() <=1 && System.currentTimeMillis() % 1009 == 0){
+			SpriteCreator creator = SpriteCreator.getInstance();
+			CannonSprites.add((CannonSprite) creator.createNewGameSprite(GameSpriteType.CANNON, screenHeight));
+		}
+	}
+	
+	public void updateProjectiles(Double delta){
+		ArrayList<Projectile> removeList = new ArrayList<Projectile>();
+		for(int i = 0; i < projectiles.size(); i++){
+			projectiles.get(i).updatePosition(delta);
+			if(CollisionDetectionManager.detectCollisionBetweenProjectileAndSprite(projectiles.get(i), playerSprite)){
+				lossHandler.handlePlayerLoss();
+			}
+			if(CollisionDetectionManager.detectCollisionBetweenProjectileAndPanel(projectiles.get(i), 600)){
+				removeList.add(projectiles.get(i));
+			}
+		}
+		for(Projectile p : removeList){
+			projectiles.remove(p);
+		}
 	}
 
-
-	private void checkForCollisionBetweenWinLoseSpriteAndPanel(
-			WinLoseSprite winLoseSprite, int i) {
-		if(CollisionDetectionManager.detectCollisionBetweenSpriteAndTopOfPanel(winLoseSprite)){
-			WinLoseSprites.get(i).setY_Coord(1); 
-		}
-		else if(CollisionDetectionManager.detectCollisionBetweenSpriteAndBottomOfPanel(winLoseSprite, screenHeight)){
-			WinLoseSprites.get(i).setY_Coord(screenHeight -(WinLoseSprites.get(i).getRadius()*2 + 1)); 
-		}
-		
-	}
-
-	private void checkForCollisionBetweenEdibleOrEnemySpriteAndPanel(GameSprite gameSprite, int i) {
+	private void checkForCollisionBetweenGameSpriteAndPanel(GameSprite gameSprite) {
+		int newY_coord = gameSprite.getY_Coord();
 		if(CollisionDetectionManager.detectCollisionBetweenSpriteAndTopOfPanel(gameSprite)){
-			GameSprites[i].setY_Coord(1); 
+			newY_coord = 1;
 		}
 		else if(CollisionDetectionManager.detectCollisionBetweenSpriteAndBottomOfPanel(gameSprite, screenHeight)){
-			GameSprites[i].setY_Coord(screenHeight - (GameSprites[i].getRadius()*2 + 1)); 
+			newY_coord = screenHeight -(gameSprite.getRadius()*2 + 1);
 		}
+		gameSprite.setCoordinate(new Coordinate(gameSprite.getX_Coord(), newY_coord));
 	}
 
 	private void checkForOffScreen(GameSprite gameSprite, int index) {
@@ -144,21 +171,15 @@ public class SpriteManager {
 			case ENEMY:
 				GameSprites[index] = creator.createNewGameSprite(GameSpriteType.ENEMY, screenHeight);
 				break;
+			case CANNON:
+				CannonSprites.remove(index);
+				break;
 			case WINLOSE:
 				WinLoseSprites.remove(index);
 				break;
 			}
-		}
-		
+		}	
 	}
-
-	private void checkForCollisionBetweenPlayerAndGameSprites(GameSprite gameSprite, int index) {
-		if(CollisionDetectionManager.detectCollisionBetweenTwoSprites(playerSprite, gameSprite)){
-			handleCollision(gameSprite, index);
-		}
-	}
-
-	
 
 	private void handleCollision(GameSprite gameSprite, int index) {
 		SpriteCreator creator = SpriteCreator.getInstance();
@@ -173,7 +194,7 @@ public class SpriteManager {
 			break;
 		case WINLOSE:
 			WinLoseSprite winLoseSpriate = (WinLoseSprite) gameSprite;
-			if(winLoseSpriate.PlayerWins() == true){
+			if(winLoseSpriate.getPlayerWinLoseStatus() == true){
 				winHandler.handleWin();
 			}
 			else{

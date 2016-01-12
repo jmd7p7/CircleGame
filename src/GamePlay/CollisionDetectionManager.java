@@ -1,5 +1,6 @@
 package GamePlay;
 
+import Sprite.Projectile;
 import Sprite.Sprite;
 import Utility.Utility;
 
@@ -33,6 +34,26 @@ public class CollisionDetectionManager {
 			return true;	
 		return false;
 	}
-	
+
+	public static boolean detectCollisionBetweenProjectileAndSprite(Projectile projectile, Sprite sprite) {
+		Double projectile_CenterPointXCoord = (double) projectile.getX_coord() + projectile.getRadius();
+		Double projectile_CenterPointYCoord = (double) projectile.getY_coord() + projectile.getRadius();
+		
+		Double sprite_CenterPointXCoord = (double) sprite.getX_Coord() + sprite.getRadius();
+		Double sprite_CenterPointYCoord = (double) sprite.getY_Coord() + sprite.getRadius();
+		
+		if(Utility.getDistance(projectile_CenterPointXCoord, projectile_CenterPointYCoord,
+				sprite_CenterPointXCoord, sprite_CenterPointYCoord) < 
+				(projectile.getRadius() + sprite.getRadius())){
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean detectCollisionBetweenProjectileAndPanel(Projectile projectile, int panelDimension) {
+		return (projectile.getY_coord() > panelDimension ||
+				projectile.getY_coord() + projectile.getRadius()*2 < 0 ||
+				projectile.getX_coord() > panelDimension);
+	}
 	
 }

@@ -1,11 +1,10 @@
 package Sprite;
 
 import java.awt.Color;
-import java.util.Random;
 
 public class GetBiggerEdibleSprite extends EdibleSprite{
 	public GetBiggerEdibleSprite(int radius, int horizontalSpeed, int verticalSpeed, int startingY_coord) {
-		super(radius, java.awt.Color.blue, horizontalSpeed, verticalSpeed, startingY_coord);
+		super(radius, Color.blue, horizontalSpeed, verticalSpeed, startingY_coord);
 	}
 
 	@Override

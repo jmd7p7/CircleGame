@@ -8,7 +8,7 @@ public class GoSlowerEnemySprite extends EnemySprite{
 	private static final int MAX_SPEED_DECREASE = 6;
 	
 	public GoSlowerEnemySprite(int radius, int horizontalSpeed, int verticalSpeed, int startingY_coord) {
-		super(radius, java.awt.Color.ORANGE, horizontalSpeed, verticalSpeed, startingY_coord);
+		super(radius, Color.ORANGE, horizontalSpeed, verticalSpeed, startingY_coord);
 	}
 
 	@Override
