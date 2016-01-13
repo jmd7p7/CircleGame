@@ -17,7 +17,7 @@ public class GameSpriteDirectionRandomizer {
 	}
 	
 	private int setRandomMilliseondsBetweenDirectionChange() {
-		return ran.nextInt(3000) + 500;
+		return ran.nextInt(1500) + 250;
 	}
 
 	public DirectionChangeType getDirectionChange(){

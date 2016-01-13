@@ -4,14 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import Sprite.EdibleSprite;
-import Sprite.EnemySprite;
-import Sprite.GameSpriteType;
-import Sprite.CannonSprite;
-import Sprite.WinLoseSprite;
-import Sprite.GameSprite;
-import Sprite.PlayerSprite;
-import Sprite.Projectile;
+import Sprite.*;
 import Positioning.Coordinate;
 
 public class SpriteManager {
@@ -36,7 +29,7 @@ public class SpriteManager {
 		WinLoseSprites = new ArrayList<WinLoseSprite>();
 		CannonSprites = new ArrayList<CannonSprite>();
 		projectiles = new ArrayList<Projectile>();
-		this.projectileSpeed = 5;
+		this.projectileSpeed = 4;
 		
 		switch(difficultyLevel){
 			case EASY:
@@ -51,7 +44,6 @@ public class SpriteManager {
 			default:
 				break;
 		}
-
 	}
 	
 	private void createInitialSpriteArray(int numEnemySprites, int numEdibleSprites) {
@@ -128,7 +120,7 @@ public class SpriteManager {
 			checkForCollisionBetweenGameSpriteAndPanel(CannonSprites.get(i));
 			checkForOffScreen(CannonSprites.get(i), i);
 		}
-		if(CannonSprites.size() <=1 && System.currentTimeMillis() % 1009 == 0){
+		if(CannonSprites.size() <=1 && System.currentTimeMillis() % 213 == 0){
 			SpriteCreator creator = SpriteCreator.getInstance();
 			CannonSprites.add((CannonSprite) creator.createNewGameSprite(GameSpriteType.CANNON, screenHeight));
 		}
