@@ -1,6 +1,6 @@
 package GamePlay;
 
-import Sprite.Projectile;
+import Sprite.ProjectileSprite;
 import Sprite.Sprite;
 import Utility.Utility;
 
@@ -35,9 +35,9 @@ public class CollisionDetectionManager {
 		return false;
 	}
 
-	public static boolean detectCollisionBetweenProjectileAndSprite(Projectile projectile, Sprite sprite) {
-		Double projectile_CenterPointXCoord = (double) projectile.getX_coord() + projectile.getRadius();
-		Double projectile_CenterPointYCoord = (double) projectile.getY_coord() + projectile.getRadius();
+	public static boolean detectCollisionBetweenProjectileAndSprite(ProjectileSprite projectile, Sprite sprite) {
+		Double projectile_CenterPointXCoord = (double) projectile.getX_Coord() + projectile.getRadius();
+		Double projectile_CenterPointYCoord = (double) projectile.getY_Coord() + projectile.getRadius();
 		
 		Double sprite_CenterPointXCoord = (double) sprite.getX_Coord() + sprite.getRadius();
 		Double sprite_CenterPointYCoord = (double) sprite.getY_Coord() + sprite.getRadius();
@@ -50,10 +50,11 @@ public class CollisionDetectionManager {
 		return false;
 	}
 
-	public static boolean detectCollisionBetweenProjectileAndPanel(Projectile projectile, int panelDimension) {
-		return (projectile.getY_coord() > panelDimension ||
-				projectile.getY_coord() + projectile.getRadius()*2 < 0 ||
-				projectile.getX_coord() > panelDimension);
+	public static boolean detectCollisionBetweenProjectileAndPanel(ProjectileSprite projectile, 
+			int panelWidth, int panelHeight) {
+		return (projectile.getY_Coord() > panelHeight ||
+				projectile.getY_Coord() + projectile.getRadius()*2 < 0 ||
+				projectile.getX_Coord() > panelWidth);
 	}
 	
 }

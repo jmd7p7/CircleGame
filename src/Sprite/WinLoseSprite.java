@@ -6,8 +6,8 @@ public abstract class WinLoseSprite extends GameSprite{
 
 	protected static final Boolean PLAYER_WINS = true;
 	protected static final Boolean PLAYER_LOOSES = false;
-	public WinLoseSprite(int radius, Color color, int horizontalSpeed, int verticalSpeed, int startingY_coord) {
-		super(radius, color, horizontalSpeed, verticalSpeed, GameSpriteType.WINLOSE, startingY_coord);
+	public WinLoseSprite(int radius, Color color, int horizontalSpeed, int verticalSpeed, int startingY_coord, long gestationPeriod) {
+		super(radius, color, horizontalSpeed, verticalSpeed, GameSpriteType.WINLOSE, startingY_coord, gestationPeriod);
 	}
-	public abstract Boolean getPlayerWinLoseStatus();
+	public abstract Boolean getPlayerWinStatus();
 }

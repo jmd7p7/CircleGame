@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class GoSlowerEnemySprite extends EnemySprite{
 	
-	public GoSlowerEnemySprite(int radius, int horizontalSpeed, int verticalSpeed, int startingY_coord) {
-		super(radius, Color.ORANGE, horizontalSpeed, verticalSpeed, startingY_coord);
+	public GoSlowerEnemySprite(int radius, int horizontalSpeed, int verticalSpeed, int startingY_coord, long gestationPeriod) {
+		super(radius, Color.ORANGE, horizontalSpeed, verticalSpeed, startingY_coord, gestationPeriod);
 	}
 
 	@Override
@@ -16,6 +16,11 @@ public class GoSlowerEnemySprite extends EnemySprite{
 
 	@Override
 	public int getSpeedDecreasePenalty() {
+		return this.getRadius()/5;
+	}
+
+	@Override
+	public int getScoreReductionAmount() {
 		return this.getRadius()/5;
 	}
 }

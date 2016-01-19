@@ -1,6 +1,7 @@
-package GamePlay;
+package Level;
 
-public class Level {
+public class Level implements LevelPlayerSpriteInformation, LevelGameSpriteInformation, 
+							  LevelCannonSpriteInformation, LevelProjectileSpriteInformation{
 	private int level;
 	private int numEnemySprites;
 	private int numEdibleSprites;
@@ -27,54 +28,13 @@ public class Level {
 		return numEdibleSprites;
 	}
 
-	public int getProjectileSpeed() {
-		return projectileSpeed;
-	}
-
-	public int getMaxNanoSecondsBetweenCannonFires() {
-		return maxNanoSecondsBetweenCannonFires;
-	}
-
-	public int getMaxGameSpriteSpeed() {
-		return maxGameSpriteSpeed;
-	}
-
-	public int getMinGameSpriteSpeed() {
-		return minGameSpriteSpeed;
-	}
-
-	public int getMaxPlayerSpriteSpeed() {
-		return maxPlayerSpriteSpeed;
-	}
-
-	public int getMinPlayerSpriteSpeed() {
-		return minPlayerSpriteSpeed;
-	}
-
-	public int getBeginningPlayerSpriteSpeed() {
-		return beginningPlayerSpriteSpeed;
-	}
-
-	public int getMaxRadius() {
-		return maxRadius;
-	}
-
-	public int getMinRadius() {
-		return minRadius;
-	}
-
-	public int getPlayerBeginningRadius() {
-		return playerBeginningRadius;
-	}
-
-	
 	
 	public static Level getLevelOne(){
 		Level FirstLevel = new Level();
 		FirstLevel.level = 1;
 		FirstLevel.numEnemySprites = 2;
 		FirstLevel.numEdibleSprites = 3;
-		FirstLevel.projectileSpeed = 2;
+		FirstLevel.projectileSpeed = 3;
 		FirstLevel.maxNanoSecondsBetweenCannonFires = 1000000000;
 		FirstLevel.maxGameSpriteSpeed = 5;
 		FirstLevel.minGameSpriteSpeed = 2;
@@ -90,6 +50,9 @@ public class Level {
 	public static Level getNextLevel(Level currentLevel){
 		Level NextLevel = new Level();
 		NextLevel.level = currentLevel.level +1;
+		
+		//If the next level is even, the strength of certain enemy attributes 
+		//are doubly increased
 		Boolean doubleIncrementEnemy = NextLevel.level % 2 == 0 ? true : false;
 		NextLevel.numEnemySprites = doubleIncrementEnemy ? 
 				currentLevel.numEnemySprites + 2 : currentLevel.numEnemySprites + 1;
@@ -111,5 +74,55 @@ public class Level {
 		NextLevel.minRadius = currentLevel.minRadius +2;
 		NextLevel.playerBeginningRadius = currentLevel.playerBeginningRadius;
 		return NextLevel;
+	}
+
+	@Override
+	public int getPlayerBeginningSpeed() {
+		return this.beginningPlayerSpriteSpeed;
+	}
+
+	@Override
+	public int getPlayerBeginningRadius() {
+		return this.playerBeginningRadius;
+	}
+
+	@Override
+	public int getMinPlayerSpeed() {
+		return this.minPlayerSpriteSpeed;
+	}
+
+	@Override
+	public int getMaxPlayerSpeed() {
+		return this.maxPlayerSpriteSpeed;
+	}
+
+	@Override
+	public int getMaxRadius() {
+		return this.maxRadius;
+	}
+
+	@Override
+	public int getMinRadius() {
+		return this.minRadius;
+	}
+
+	@Override
+	public int getMaxGameSpriteSpeed() {
+		return this.maxGameSpriteSpeed;
+	}
+
+	@Override
+	public int getMinGameSpriteSpeed() {
+		return this.minGameSpriteSpeed;
+	}
+
+	@Override
+	public int getMaxNanoSecondsBetweenFires() {
+		return this.maxNanoSecondsBetweenCannonFires;
+	}
+
+	@Override
+	public int getProjectileSpeed() {
+		return this.projectileSpeed;
 	}
 }

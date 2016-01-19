@@ -3,8 +3,8 @@ package Sprite;
 import java.awt.Color;
 
 public class GetBiggerEdibleSprite extends EdibleSprite{
-	public GetBiggerEdibleSprite(int radius, int horizontalSpeed, int verticalSpeed, int startingY_coord) {
-		super(radius, Color.blue, horizontalSpeed, verticalSpeed, startingY_coord);
+	public GetBiggerEdibleSprite(int radius, int horizontalSpeed, int verticalSpeed, int startingY_coord, long gestationPeriod) {
+		super(radius, Color.blue, horizontalSpeed, verticalSpeed, startingY_coord, gestationPeriod);
 	}
 
 	@Override
@@ -14,6 +14,11 @@ public class GetBiggerEdibleSprite extends EdibleSprite{
 
 	@Override
 	public int getSizeIncreaseReward() {
+		return this.getRadius()/4;
+	}
+
+	@Override
+	public int getScoreIncreaseAmount() {
 		return this.getRadius()/4;
 	}
 
