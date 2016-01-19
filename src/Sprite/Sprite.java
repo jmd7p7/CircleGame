@@ -17,21 +17,6 @@ public abstract class Sprite {
 		this.color = color;		
 		this.coordinate = new Coordinate(startingX_coord, startingY_coord);
 	}
-
-	
-	public Sprite(PlayerSprite oldPlayer, EdibleSprite edibleSprite, int maxRadius){
-		int potentialNewRadius = oldPlayer.getRadius() + edibleSprite.getSizeIncreaseReward();
-		this.radius = potentialNewRadius <= maxRadius ? potentialNewRadius : maxRadius;
-		this.color = oldPlayer.getColor();
-		this.coordinate = new Coordinate(oldPlayer.getX_Coord(), oldPlayer.getY_Coord());
-	}
-	
-	public Sprite(PlayerSprite oldPlayer, EnemySprite enemySprite, int minRadius){
-		int potentialNewRadius = oldPlayer.getRadius() - enemySprite.getSizeDecreasePenalty();
-		this.radius = potentialNewRadius >= minRadius ? potentialNewRadius : minRadius;
-		this.color = oldPlayer.getColor();	
-		this.coordinate = new Coordinate(oldPlayer.getX_Coord(), oldPlayer.getY_Coord());
-	}
 	
 	public void setCoordinate(Coordinate newCoordinate){
 		this.coordinate = newCoordinate;
