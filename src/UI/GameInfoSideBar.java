@@ -22,7 +22,7 @@ public class GameInfoSideBar extends JPanel implements IScoreUpdater{
 	JLabel scoreTitleLabel;
 	JLabel scoreLabel;
 	
-	public GameInfoSideBar(IScreenDimensionsProvider dimensionsProvider, int level, int score){
+	public GameInfoSideBar(IScreenInfoProvider dimensionsProvider, int level, int score){
 		this.setPreferredSize(new Dimension(dimensionsProvider.getSidePanelWidth(), dimensionsProvider.getHeight()));
 		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.DARK_GRAY, Color.DARK_GRAY));
 		this.score = score;

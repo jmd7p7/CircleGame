@@ -4,36 +4,37 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.net.MalformedURLException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import GamePlay.PlayerLoseHandler;
 import GamePlay.PlayerWinHandler;
-import GamePlay.SpriteManager;
+import GamePlay.SpriteManager2;
 import Level.Level;
-import Sprite.Sprite;
+import sprites.Sprite;
 
 class GameBoard extends JPanel {
-	private SpriteManager spriteManager;
+	private SpriteManager2 spriteManager;
 	private boolean gameRunning = true;
 	private static final int ONE_BILLION = 1000000000;
 	private static final int ONE_MILLION = 1000000;
 	public static final Color CANVAS_BACKGROUND = Color.WHITE;
 
-	public GameBoard(Level level, PlayerWinHandler winHandler, PlayerLoseHandler lossHandler, 
-			         IScreenDimensionsProvider dimensionsProvider, IScoreUpdater scoreUpdater){
-		this.setPreferredSize(new Dimension(dimensionsProvider.getGameBoardWidth(), dimensionsProvider.getHeight()));
+	public GameBoard(Level previousLevel, PlayerWinHandler winHandler, PlayerLoseHandler lossHandler, 
+			IScreenInfoProvider screenInfoProvider, IScoreUpdater scoreUpdater) throws MalformedURLException{
+		
+		this.setPreferredSize(new Dimension(screenInfoProvider.getWidth(), screenInfoProvider.getHeight()));
 		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.GRAY, Color.GRAY));
-		this.spriteManager = new SpriteManager(dimensionsProvider.getGameBoardWidth(), dimensionsProvider.getHeight(), 
-				winHandler, lossHandler, Level.getNextLevel(level), scoreUpdater);
+		this.spriteManager = new SpriteManager2(previousLevel, screenInfoProvider, winHandler, lossHandler, scoreUpdater);
 	}
 	
 	public GameBoard(PlayerWinHandler winHandler, PlayerLoseHandler lossHandler, 
-			IScreenDimensionsProvider dimensionsProvider, IScoreUpdater scoreUpdater){
-		this.setPreferredSize(new Dimension(dimensionsProvider.getGameBoardWidth(), dimensionsProvider.getHeight()));
+			IScreenInfoProvider screenInfoProvider, IScoreUpdater scoreUpdater) throws MalformedURLException{
+		this.setPreferredSize(new Dimension(screenInfoProvider.getWidth(), screenInfoProvider.getHeight()));
 		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.GRAY, Color.GRAY));
-		this.spriteManager = new SpriteManager(dimensionsProvider.getGameBoardWidth(), dimensionsProvider.getHeight(), 
-				winHandler, lossHandler, Level.getLevelOne(), scoreUpdater);
+		this.spriteManager = new SpriteManager2(screenInfoProvider, winHandler, lossHandler, scoreUpdater);
 	}
 	
 	public Level getLevel(){
@@ -52,7 +53,7 @@ class GameBoard extends JPanel {
 		long nanosecondAccumulator = 0;
 		long fps = 0;
 		long lastLoopTime = System.nanoTime();
-		final int TARGET_FPS = 40;
+		final int TARGET_FPS = 20;
 		final long OPTIMAL_NANOSECONDS_EACH_FRAME = ONE_BILLION / TARGET_FPS;
 
 		while (gameRunning) {
@@ -82,6 +83,11 @@ class GameBoard extends JPanel {
 				long nanosecondsToSleepToGetDesiredFrameRate =
 						OPTIMAL_NANOSECONDS_EACH_FRAME - nanosecondsThisFrame;
 				long millisecondsToSleep = nanosecondsToSleepToGetDesiredFrameRate / ONE_MILLION;
+				
+				if(millisecondsToSleep < 0){
+					System.out.println("Nanos this frame time: " + nanosecondsThisFrame);
+					System.out.println("Opitmal nanos: " + OPTIMAL_NANOSECONDS_EACH_FRAME);
+				}
 
 				//System.out.println("Milliseconds to sleep " + nanosecondsToSleepToGetDesiredFrameRate / ONE_MILLION);
 				Thread.sleep(millisecondsToSleep);
@@ -97,7 +103,7 @@ class GameBoard extends JPanel {
 	}
 
 	private void updateSpritePositions(double delta) {
-		spriteManager.updatePositions(delta);
+		spriteManager.updateSprites();
 	}
 
 	@Override
@@ -105,9 +111,14 @@ class GameBoard extends JPanel {
 		super.paintComponent(g);
 		setBackground(CANVAS_BACKGROUND);
 		
-		for(Sprite sprite : spriteManager.getAllSprites()){
+		for(Sprite sprite : spriteManager.getGameSprites()){
 			g.setColor(sprite.getColor());
-			g.fillOval(sprite.getX_Coord(), sprite.getY_Coord(), sprite.getRadius()*2, sprite.getRadius()*2);
+			g.fillOval(sprite.getX(), sprite.getY(), sprite.getRadius()*2, sprite.getRadius()*2);
 		}
+		
+		Sprite playerSprite = spriteManager.getPlayerSprite();
+		g.setColor(playerSprite.getColor());
+		g.fillOval(playerSprite.getX(), playerSprite.getY(), 
+				playerSprite.getRadius() * 2, playerSprite.getRadius() * 2);
 	}
 }

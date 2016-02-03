@@ -1,4 +1,4 @@
-package GamePlay;
+/*package GamePlay;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class SpriteManager {
 		WinLoseSprites = new ArrayList<WinLoseSprite>();
 		CannonSprites = new ArrayList<CannonSprite>();
 		projectiles = new ArrayList<ProjectileSprite>();
-		createInitialSpriteArray(level.getNumEnemySprites(), level.getNumEdibleSprites());
+		createInitialSpriteArray(level.getNumGameSprites(), level.getNumEdibleSprites());
 		this.scoreUpdater = scoreUpdater;
 	}
 	
@@ -226,3 +226,4 @@ public class SpriteManager {
 
 	}
 }
+*/

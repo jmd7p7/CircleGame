@@ -5,5 +5,6 @@ public interface LevelGameSpriteInformation {
 	public int getMinGameSpriteSpeed();
 	public int getMaxRadius();
 	public int getMinRadius();
+	public int getProjectileSpeed();
 	public int getMaxNanoSecondsBetweenFires();
 }

@@ -6,7 +6,7 @@ public class CannonSprite extends GameSprite{
 	private long lastFireTime;
 	
 	public CannonSprite(int radius, int horizontalSpeed, int verticalSpeed, int startingY_coord, int maxNanoSecondsBetweenFires, long gestationPeriod){
-		super(radius, java.awt.Color.BLACK, horizontalSpeed, verticalSpeed, GameSpriteType.CANNON, startingY_coord, gestationPeriod);
+		super(radius, java.awt.Color.GRAY, horizontalSpeed, verticalSpeed, GameSpriteType.CANNON, startingY_coord, gestationPeriod);
 		this.maxNanoSecondsBetweenFires = maxNanoSecondsBetweenFires;
 		this.lastFireTime = System.nanoTime();
 	}

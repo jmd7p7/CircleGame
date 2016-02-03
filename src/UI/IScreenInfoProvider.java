@@ -1,9 +1,9 @@
 package UI;
 
-public interface IScreenDimensionsProvider {
+public interface IScreenInfoProvider{
 	public String getDimensionsName();
 	public int getHeight();
-	public int getGameBoardWidth();
+	public int getWidth();
 	public int getSidePanelWidth();
 	public int getFontSize();
 }

@@ -6,7 +6,7 @@ import java.util.Random;
 public class GoFasterEdibleSprite extends EdibleSprite{
 
 	public GoFasterEdibleSprite(int radius, int horizontalSpeed, int verticalSpeed, int startingY_coord, long gestationPeriod) {
-		super(radius, Color.LIGHT_GRAY, horizontalSpeed, verticalSpeed, startingY_coord, gestationPeriod);
+		super(radius, Color.MAGENTA, horizontalSpeed, verticalSpeed, startingY_coord, gestationPeriod);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package UI;
 
-public class LargeScreenDimensionsProvider implements IScreenDimensionsProvider {
+public class LargeScreenInfoProvider implements IScreenInfoProvider, IHeightWidthProvider {
 
 	@Override
 	public String getDimensionsName() {
@@ -15,9 +15,9 @@ public class LargeScreenDimensionsProvider implements IScreenDimensionsProvider 
 	}
 
 	@Override
-	public int getGameBoardWidth() {
+	public int getWidth() {
 		// TODO Auto-generated method stub
-		return 800;
+		return 900;
 	}
 
 	@Override

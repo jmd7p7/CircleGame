@@ -1,8 +1,6 @@
 package Tests;
 
-import static org.junit.Assert.*;
 import Utility.Utility;
-
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -2,26 +2,22 @@ package UI;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.net.MalformedURLException;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-
 import GamePlay.PlayerLoseHandler;
 import GamePlay.PlayerWinHandler;
-import GamePlay.SpriteManager;
-import Sprite.Sprite;
-import Level.Level;
 
 public class GameFrame extends JFrame implements PlayerWinHandler, PlayerLoseHandler{
-	IScreenDimensionsProvider dimensionsProvider;	
+	IScreenInfoProvider dimensionsProvider;	
 	private GameBoard gameBoard;
 	private GameInfoSideBar sideBar;
 	private static final int LEVEL_ONE = 1;
 	private static final int ZERO_SCORE = 0;
 	
-	public GameFrame() {
+	public GameFrame() throws MalformedURLException {
 		
-		this.dimensionsProvider = new LargeScreenDimensionsProvider();
+		this.dimensionsProvider = new LargeScreenInfoProvider();
 		sideBar = new GameInfoSideBar(dimensionsProvider, LEVEL_ONE, ZERO_SCORE);
 		gameBoard = new GameBoard(this, this, dimensionsProvider, sideBar);
 		
@@ -45,10 +41,17 @@ public class GameFrame extends JFrame implements PlayerWinHandler, PlayerLoseHan
 
 	/** The entry main() method */
 	public static void main(String[] args) {
-		GameFrame game = new GameFrame();
-		game.pack();
-		game.setVisible(true);
-		game.start();
+		GameFrame game;
+		try {
+			game = new GameFrame();
+			game.pack();
+			game.setVisible(true);
+			game.start();
+		} catch (MalformedURLException e) {
+			System.out.println(e.getMessage());
+			System.exit(0);
+		}
+		
 	}
 
 	private void start() {
@@ -61,7 +64,12 @@ public class GameFrame extends JFrame implements PlayerWinHandler, PlayerLoseHan
 				JOptionPane.YES_NO_OPTION);
 		if(result == JOptionPane.YES_OPTION){
 			sideBar = new GameInfoSideBar(dimensionsProvider, gameBoard.getLevelAsNumber() + 1, sideBar.getScore());
-			gameBoard = new GameBoard(gameBoard.getLevel(), this, this, dimensionsProvider, sideBar);			
+			try {
+				gameBoard = new GameBoard(gameBoard.getLevel(), this, this, dimensionsProvider, sideBar);
+			} catch (MalformedURLException e) {
+				System.out.println(e.getMessage());
+				System.exit(0);
+			}			
 			startNextGame();
 		}
 		else{
@@ -76,7 +84,12 @@ public class GameFrame extends JFrame implements PlayerWinHandler, PlayerLoseHan
 				JOptionPane.YES_NO_OPTION);
 		if(result == JOptionPane.YES_OPTION){
 			sideBar = new GameInfoSideBar(dimensionsProvider, LEVEL_ONE, ZERO_SCORE);	
-			gameBoard = new GameBoard(this, this, dimensionsProvider, sideBar);	
+			try {
+				gameBoard = new GameBoard(this, this, dimensionsProvider, sideBar);
+			} catch (MalformedURLException e) {
+				System.out.println(e.getMessage());
+				System.exit(0);
+			}	
 			startNextGame();
 		}
 		else{
