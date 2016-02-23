@@ -1,6 +1,6 @@
 package Level;
 
-public interface LevelPlayerSpriteInformation {
+public interface ILevelPlayerSpriteInformation {
 	public int getPlayerBeginningSpeed();
 	public int getPlayerBeginningRadius();
 	public int getMaxRadius();

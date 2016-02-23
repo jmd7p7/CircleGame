@@ -2,7 +2,7 @@ package sprites;
 
 import java.util.Random;
 import Utility.Utility;
-import Level.LevelGameSpriteInformation;
+import Level.ILevelGameSpriteInformation;
 import Positioning.Coordinate;
 import UI.ICannonFireHandler;
 import paths.PathProviderCreator;
@@ -11,12 +11,12 @@ public class SpriteCreator {
 	Random ran;
 	PathProviderCreator pathProviderCreator;
 	
-	public SpriteCreator(int yMax){
+	public SpriteCreator(int width, int height){
 		this.ran = new Random(System.nanoTime());
-		this.pathProviderCreator = new PathProviderCreator(yMax);
+		this.pathProviderCreator = new PathProviderCreator(width, height);
 	}
 	
-	public GameSprite getRandomGameSprite(LevelGameSpriteInformation gameSpriteInfo, ICannonFireHandler cannonFireHandler){
+	public GameSprite getRandomGameSprite(ILevelGameSpriteInformation gameSpriteInfo, ICannonFireHandler cannonFireHandler){
 		
 		int radius = ran.nextInt(gameSpriteInfo.getMaxRadius()+1);
 		radius = Utility.checkAgainstMinAndMaxValues(radius, gameSpriteInfo.getMaxRadius(), gameSpriteInfo.getMinRadius());
@@ -42,7 +42,8 @@ public class SpriteCreator {
 					pathProviderCreator.getPathProvider());
 		case 4:
 			return new CannonSprite(beginningCoordinate, radius, speed, 
-					pathProviderCreator.getPathProvider(), cannonFireHandler);
+					pathProviderCreator.getPathProvider(), cannonFireHandler, 
+					gameSpriteInfo.getMaxMilliSecondsBetweenFires());
 		case 5:
 			return new WinSprite(beginningCoordinate, radius, speed, 
 					pathProviderCreator.getPathProvider());

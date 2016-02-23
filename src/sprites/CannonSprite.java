@@ -1,5 +1,4 @@
 package sprites;
-import java.util.Timer;
 import java.util.TimerTask;
 
 import Positioning.Coordinate;
@@ -10,39 +9,33 @@ import paths.PathProvider;
 public class CannonSprite extends GameSprite {	
 	private PathProvider pathProvider;
 	private ICannonFireHandler cannonFireHandler;
-	private Timer timer;
-	
-	private class CannonTimer extends TimerTask{
-		private CannonSprite outerClass;
-		public CannonTimer(CannonSprite cannonSprite){
-			this.outerClass = cannonSprite;
-		}
-		
-		@Override
-		public void run() {
-			cannonFireHandler.FireCannon(outerClass.getCoordinate());
-		}
-	}
+	private int maxMillisecondsBetweenCannonFire;
+	private long timeAtLastCannonFire;
 	
 	public CannonSprite(Coordinate coord, int radius, int speed, PathProvider pathProvider, 
-			ICannonFireHandler cannonFireHandler) {
+			ICannonFireHandler cannonFireHandler, int maxMilliSecondsBetweenCannonFire) {
 		
 		super(coord, radius, speed, java.awt.Color.BLACK);
-		
+		this.maxMillisecondsBetweenCannonFire = maxMilliSecondsBetweenCannonFire;
+		this.timeAtLastCannonFire = System.currentTimeMillis();
 		this.pathProvider = pathProvider;
+		this.setCoordiante(pathProvider.getNextCoordinate(-(this.getRadius())));
 		this.cannonFireHandler = cannonFireHandler;
-		this.timer = new Timer();
-		timer.scheduleAtFixedRate(new CannonTimer(this), 50, 1000);
 	}
 	
 	@Override
 	public void updatePosition() {
 		setCoordiante(this.pathProvider.getNextCoordinate(this.getX() + this.getSpeed()));
+		if(System.currentTimeMillis() - this.timeAtLastCannonFire > this.maxMillisecondsBetweenCannonFire){
+			this.cannonFireHandler.FireCannon(this.getCoordinate());
+			this.timeAtLastCannonFire = System.currentTimeMillis();
+		}
 	}
 
 	@Override
 	public void handleCollisionWithPlayer(ICollisionHandler handler) {
 		handler.HandleCollisionSound("Enemy");
 	}
+
 	
 }

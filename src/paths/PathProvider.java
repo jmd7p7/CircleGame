@@ -1,12 +1,17 @@
 package paths;
 
+import java.util.Random;
+
 import Positioning.Coordinate;
 
 public abstract class PathProvider {
-	int y_max;
+	protected int width;
+	protected int height;
+	protected static Random ran = new Random(System.nanoTime());
 	
-	public PathProvider(int y_max){
-		this.y_max = y_max;
+	public PathProvider(int width, int height){
+		this.height = height;
+		this.width = width;
 	}
 	
 	public abstract Coordinate getNextCoordinate(int x);

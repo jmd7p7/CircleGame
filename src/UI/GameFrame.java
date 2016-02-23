@@ -5,10 +5,10 @@ import java.awt.event.*;
 import java.net.MalformedURLException;
 
 import javax.swing.*;
-import GamePlay.PlayerLoseHandler;
-import GamePlay.PlayerWinHandler;
+import GamePlay.IPlayerLoseHandler;
+import GamePlay.IPlayerWinHandler;
 
-public class GameFrame extends JFrame implements PlayerWinHandler, PlayerLoseHandler{
+public class GameFrame extends JFrame implements IPlayerWinHandler, IPlayerLoseHandler{
 	IScreenInfoProvider dimensionsProvider;	
 	private GameBoard gameBoard;
 	private GameInfoSideBar sideBar;

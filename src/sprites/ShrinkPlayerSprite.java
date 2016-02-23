@@ -12,6 +12,7 @@ public class ShrinkPlayerSprite extends GameSprite{
 		super(coord, radius, speed, java.awt.Color.RED);
 		
 		this.pathProvider = pathProvider;
+		this.setCoordiante(pathProvider.getNextCoordinate(-(this.getRadius())));
 	}
 
 	@Override
@@ -28,4 +29,5 @@ public class ShrinkPlayerSprite extends GameSprite{
 		handler.HandleCollisionSound("Enemy");
 		handler.HandleScoreUpdate(points);
 	}
+
 }

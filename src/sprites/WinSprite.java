@@ -12,6 +12,7 @@ public class WinSprite extends GameSprite {
 		super(coord, radius, speed, java.awt.Color.GREEN);
 
 		this.pathProvider = pathProvider;
+		this.setCoordiante(pathProvider.getNextCoordinate(-(this.getRadius())));
 	}
 
 	@Override
@@ -25,4 +26,5 @@ public class WinSprite extends GameSprite {
 		handler.HandleScoreUpdate(this.getRadius() * 2);
 		handler.HandleWin();
 	}
+
 }

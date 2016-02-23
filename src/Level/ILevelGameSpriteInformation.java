@@ -1,10 +1,10 @@
 package Level;
 
-public interface LevelGameSpriteInformation {
+public interface ILevelGameSpriteInformation {
 	public int getMaxGameSpriteSpeed();
 	public int getMinGameSpriteSpeed();
 	public int getMaxRadius();
 	public int getMinRadius();
 	public int getProjectileSpeed();
-	public int getMaxNanoSecondsBetweenFires();
+	public int getMaxMilliSecondsBetweenFires();
 }

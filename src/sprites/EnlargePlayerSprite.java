@@ -12,6 +12,7 @@ public class EnlargePlayerSprite extends GameSprite{
 		super(coord, radius, speed, java.awt.Color.BLUE);
 
 		this.pathProvider = pathProvider;
+		this.setCoordiante(pathProvider.getNextCoordinate(-(this.getRadius())));
 	}
 	@Override
 	public void updatePosition() {
@@ -27,5 +28,6 @@ public class EnlargePlayerSprite extends GameSprite{
 		handler.HandleCollisionSound("Ally");
 		handler.HandleScoreUpdate(points);
 	}
+
 
 }

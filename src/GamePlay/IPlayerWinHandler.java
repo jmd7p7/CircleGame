@@ -1,5 +1,5 @@
 package GamePlay;
 
-public interface PlayerWinHandler {
+public interface IPlayerWinHandler {
 	public void handleWin();
 }

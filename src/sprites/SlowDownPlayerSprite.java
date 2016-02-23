@@ -12,6 +12,7 @@ public class SlowDownPlayerSprite extends GameSprite {
 		super(coord, radius, speed, java.awt.Color.ORANGE);
 
 		this.pathProvider = pathProvider;
+		this.setCoordiante(pathProvider.getNextCoordinate(-(this.getRadius())));
 	}
 
 	@Override
@@ -28,5 +29,6 @@ public class SlowDownPlayerSprite extends GameSprite {
 		handler.HandleScoreUpdate(points);
 		handler.HandleCollisionSound("Enemy");
 	}
+
 
 }

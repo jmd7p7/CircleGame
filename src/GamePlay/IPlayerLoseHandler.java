@@ -1,5 +1,5 @@
 package GamePlay;
 
-public interface PlayerLoseHandler {
+public interface IPlayerLoseHandler {
 	public void handlePlayerLoss();
 }

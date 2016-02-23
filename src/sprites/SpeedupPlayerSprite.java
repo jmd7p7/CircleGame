@@ -12,6 +12,7 @@ public class SpeedupPlayerSprite extends GameSprite {
 		super(coord, radius, speed, java.awt.Color.LIGHT_GRAY);
 
 		this.pathProvider = pathProvider;
+		this.setCoordiante(pathProvider.getNextCoordinate(-(this.getRadius())));
 	}
 	@Override
 	public void updatePosition() {
@@ -27,5 +28,6 @@ public class SpeedupPlayerSprite extends GameSprite {
 		handler.HandleScoreUpdate(points);
 		handler.HandleCollisionSound("Ally");
 	}
+
 
 }

@@ -9,8 +9,8 @@ import java.net.MalformedURLException;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
-import GamePlay.PlayerLoseHandler;
-import GamePlay.PlayerWinHandler;
+import GamePlay.IPlayerLoseHandler;
+import GamePlay.IPlayerWinHandler;
 import GamePlay.SpriteManager2;
 import Level.Level;
 import sprites.Sprite;
@@ -22,7 +22,7 @@ class GameBoard extends JPanel {
 	private static final int ONE_MILLION = 1000000;
 	public static final Color CANVAS_BACKGROUND = Color.WHITE;
 
-	public GameBoard(Level previousLevel, PlayerWinHandler winHandler, PlayerLoseHandler lossHandler, 
+	public GameBoard(Level previousLevel, IPlayerWinHandler winHandler, IPlayerLoseHandler lossHandler, 
 			IScreenInfoProvider screenInfoProvider, IScoreUpdater scoreUpdater) throws MalformedURLException{
 		
 		this.setPreferredSize(new Dimension(screenInfoProvider.getWidth(), screenInfoProvider.getHeight()));
@@ -30,7 +30,7 @@ class GameBoard extends JPanel {
 		this.spriteManager = new SpriteManager2(previousLevel, screenInfoProvider, winHandler, lossHandler, scoreUpdater);
 	}
 	
-	public GameBoard(PlayerWinHandler winHandler, PlayerLoseHandler lossHandler, 
+	public GameBoard(IPlayerWinHandler winHandler, IPlayerLoseHandler lossHandler, 
 			IScreenInfoProvider screenInfoProvider, IScoreUpdater scoreUpdater) throws MalformedURLException{
 		this.setPreferredSize(new Dimension(screenInfoProvider.getWidth(), screenInfoProvider.getHeight()));
 		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.GRAY, Color.GRAY));
@@ -84,12 +84,9 @@ class GameBoard extends JPanel {
 						OPTIMAL_NANOSECONDS_EACH_FRAME - nanosecondsThisFrame;
 				long millisecondsToSleep = nanosecondsToSleepToGetDesiredFrameRate / ONE_MILLION;
 				
-				if(millisecondsToSleep < 0){
-					System.out.println("Nanos this frame time: " + nanosecondsThisFrame);
-					System.out.println("Opitmal nanos: " + OPTIMAL_NANOSECONDS_EACH_FRAME);
-				}
+				millisecondsToSleep = millisecondsToSleep < 0 ? 0 : millisecondsToSleep;
 
-				//System.out.println("Milliseconds to sleep " + nanosecondsToSleepToGetDesiredFrameRate / ONE_MILLION);
+				System.out.println("Milliseconds to sleep " + nanosecondsToSleepToGetDesiredFrameRate / ONE_MILLION);
 				Thread.sleep(millisecondsToSleep);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

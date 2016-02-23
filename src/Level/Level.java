@@ -1,10 +1,10 @@
 package Level;
 
-public class Level implements LevelPlayerSpriteInformation, LevelGameSpriteInformation{
+public class Level implements ILevelPlayerSpriteInformation, ILevelGameSpriteInformation{
 	private int level;
 	private int numGameSprites;
 	private int projectileSpeed;
-	private int maxNanoSecondsBetweenCannonFires;
+	private int maxMilliSecondsBetweenCannonFires;
 	private int maxGameSpriteSpeed;
 	private int minGameSpriteSpeed;
 	private int maxPlayerSpriteSpeed;
@@ -28,7 +28,7 @@ public class Level implements LevelPlayerSpriteInformation, LevelGameSpriteInfor
 		FirstLevel.level = 1;
 		FirstLevel.numGameSprites = 5;
 		FirstLevel.projectileSpeed = 4;
-		FirstLevel.maxNanoSecondsBetweenCannonFires = 1000000000;
+		FirstLevel.maxMilliSecondsBetweenCannonFires = 3000;
 		FirstLevel.maxGameSpriteSpeed = 3;
 		FirstLevel.minGameSpriteSpeed = 2;
 		FirstLevel.maxPlayerSpriteSpeed = 7;
@@ -51,9 +51,9 @@ public class Level implements LevelPlayerSpriteInformation, LevelGameSpriteInfor
 				previousLevel.numGameSprites + 2 : previousLevel.numGameSprites + 1;
 		NextLevel.projectileSpeed = doubleIncrementEnemy == true ? 
 				previousLevel.projectileSpeed + 2 : previousLevel.projectileSpeed + 1;
-		NextLevel.maxNanoSecondsBetweenCannonFires = doubleIncrementEnemy == true ?
-				previousLevel.maxNanoSecondsBetweenCannonFires - 100000000 : 
-				previousLevel.maxNanoSecondsBetweenCannonFires - 50000000;
+		NextLevel.maxMilliSecondsBetweenCannonFires = doubleIncrementEnemy == true ?
+				previousLevel.maxMilliSecondsBetweenCannonFires - 100 : 
+				previousLevel.maxMilliSecondsBetweenCannonFires - 500;
 		NextLevel.maxGameSpriteSpeed = previousLevel.maxGameSpriteSpeed + 1;
 		NextLevel.minGameSpriteSpeed = previousLevel.minGameSpriteSpeed + 1;
 		NextLevel.maxPlayerSpriteSpeed = doubleIncrementEnemy == true ?
@@ -109,12 +109,12 @@ public class Level implements LevelPlayerSpriteInformation, LevelGameSpriteInfor
 	}
 
 	@Override
-	public int getMaxNanoSecondsBetweenFires() {
-		return this.maxNanoSecondsBetweenCannonFires;
+	public int getProjectileSpeed() {
+		return this.projectileSpeed;
 	}
 
 	@Override
-	public int getProjectileSpeed() {
-		return this.projectileSpeed;
+	public int getMaxMilliSecondsBetweenFires() {
+		return this.maxMilliSecondsBetweenCannonFires;
 	}
 }
